@@ -14,6 +14,9 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                livvic: ['"Livvic"', 'sans-serif'],
+                poppins: ['"Poppins"', 'sans-serif'],
+                montecarlo: ['"MonteCarlo"', 'cursive'],
             },
         },
     },
