@@ -28,7 +28,9 @@ export default function Home({ auth }) {
             <p className="text-base md:text-[20px] leading-relaxed text-white">
               Manfaatkan teknologi untuk mengetahui potensi tanaman terbaik di wilayahmu, deteksi dini penyakit tanaman, serta prediksi musim tanam & panen secara otomatis.
             </p>
-            <button className="bg-white text-[#2E4D1C] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-[#f3f3f3] transition">
+            <button 
+            onClick={() => document.getElementById('fitur')?.scrollIntoView({ behavior: 'smooth' })}
+            className="bg-white text-[#2E4D1C] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-[#f3f3f3] transition">
               JELAJAHI FITUR
             </button>
           </div>
@@ -36,7 +38,7 @@ export default function Home({ auth }) {
       </section>
 
       {/* Tentang Kami */}
-      <section className="bg-[#2E4D1C] text-white py-16">
+      <section id='tentang-kami' className="bg-[#2E4D1C] text-white py-16">
         <Container>
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2">
@@ -73,47 +75,61 @@ export default function Home({ auth }) {
       </section>
 
       {/* Fitur */}
-      <section className="bg-white py-16">
-        <Container>
-          <h2 className="font-livvic text-3xl md:text-[40px] font-bold text-[#2E4D1C] text-center">
-            Jelajahi Proyek <span className="text-[#FFA800]">#TanamAku</span>
-          </h2>
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
-            {[
-              {
-                title: 'Analisis Potensi Tanaman',
-                desc: 'Proyek pemetaan komoditas unggulan berdasarkan data tanah dan cuaca di wilayah Jawa Tengah.',
-                image: '/images/fitur1.png',
-              },
-              {
-                title: 'Deteksi Dini Penyakit Tanaman',
-                desc: 'Penerapan teknologi pengenalan gejala visual untuk mendeteksi penyakit pada tumbuhan.',
-                image: '/images/fitur2.png',
-              },
-              {
-                title: 'Prediksi Musim Tanam & Panen',
-                desc: 'Sistem penjadwalan tanam otomatis berbasis iklim.',
-                image: '/images/fitur3.png',
-              },
-            ].map((f, i) => (
-              <div key={i} className="relative w-full max-w-xs h-[360px] rounded-[20px] overflow-hidden shadow-lg group transition duration-300 hover:shadow-2xl">
-                <img src={f.image} alt={f.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                <div className="absolute inset-0 bg-black bg-opacity-50 p-6 flex flex-col justify-end text-white">
-                  <h3 className="text-lg font-semibold text-[#FFA800]">{f.title}</h3>
-                  <p className="text-sm mt-2 leading-relaxed">{f.desc}</p>
-                  <span className="mt-3 text-[#FFA800] text-lg font-bold">&rarr;</span>
-                </div>
-              </div>
-            ))}
+      <section id='fitur' className="bg-white py-16">
+  <Container>
+    <h2 className="font-livvic text-3xl md:text-[40px] font-bold text-[#2E4D1C] text-center">
+      Jelajahi Fitur <span className="text-[#FFA800]">#TanamAku</span>
+    </h2>
+    <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
+      {[
+        {
+          title: 'Analisis Potensi Tanaman',
+          image: '/images/fitur1.png',
+          link: '/analisis-potensi-tanaman',
+        },
+        {
+          title: 'Deteksi Dini Penyakit Tanaman',
+          image: '/images/fitur2.png',
+          link: '/analisis-penyakit-tanaman',
+        },
+        {
+          title: 'Prediksi Musim Tanam & Panen',
+          image: '/images/fitur3.png',
+          link: '/prediksi-musim-tanam',
+        },
+      ].map((f, i) => (
+        <div
+          key={i}
+          className="relative w-full max-w-xs h-[360px] rounded-[20px] overflow-hidden shadow-lg group transition duration-300 hover:shadow-2xl"
+        >
+          <img
+            src={f.image}
+            alt={f.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-20 px-6 py-6 flex flex-col justify-end text-white">
+            <h3 className="text-left text-lg font-semibold">{f.title}</h3>
+            <a
+              href={f.link}
+              className="mt-4 w-full bg-[#FFA800] hover:bg-[#e69c00] text-black text-sm font-semibold px-4 py-2 rounded text-center transition block"
+            >
+              Mulai Sekarang
+            </a>
           </div>
-        </Container>
-      </section>
+        </div>
+      ))}
+    </div>
+  </Container>
+</section>
+
+
 
       {/* Dukungan Tanam */}
       <GrowSupport />
 
       {/* Kontak */}
-      <section className="bg-[#2E4D1C] text-white py-16">
+      <section id='kontak' className="bg-[#2E4D1C] text-white py-16">
         <Container>
           <h3 className="text-[#FFA800] text-sm uppercase mb-4 font-semibold">KONTAK</h3>
           <div className="grid md:grid-cols-2 gap-8">

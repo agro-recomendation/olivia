@@ -18,6 +18,15 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+    Route::get('/analisis-potensi-tanaman', function () {
+        return Inertia::render('Analisys'); 
+    })->middleware(['auth', 'verified'])->name('analisis.potensi');
+
+    Route::get('/analisis-penyakit-tanaman', function () {
+        return Inertia::render('DeteksiPenyakitTanaman'); 
+    })->middleware(['auth', 'verified'])->name('analisis.penyakit');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
