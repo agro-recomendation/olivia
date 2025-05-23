@@ -16,8 +16,16 @@ export default function Navbar({ auth }) {
           <a href="#" className="hover:underline">Beranda</a>
           <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-[#FFA800] block"></span>
         </li>
-        <li><a href="#" className="hover:underline">Tentang kami</a></li>
-        <li><a href="#" className="hover:underline">Kontak</a></li>
+        <li>
+          <button onClick={() => document.getElementById('tentang-kami')?.scrollIntoView({ behavior: 'smooth' })}>
+            Tentang Kami
+          </button>
+        </li>
+        <li>
+          <button onClick={() => document.getElementById('kontak')?.scrollIntoView({ behavior: 'smooth' })}>
+            Kontak
+          </button>
+        </li>
         <li><a href="#" className="text-[#FFA800] font-bold">#TanamAku</a></li>
       </ul>
 
