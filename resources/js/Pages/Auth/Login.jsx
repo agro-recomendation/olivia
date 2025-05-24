@@ -91,7 +91,7 @@ export default function Login({ status, canResetPassword }) {
                             </div>
 
                             <PrimaryButton
-                                className="w-full flex justify-center items-center bg-[#325700] hover:bg-[#2a4a00] text-white py-2 rounded"
+                                className="w-full flex justify-center items-center bg-[#325700] hover:bg-[#4a7d00] text-white py-2 rounded"
                                 disabled={processing}
                             >
                                 MASUK
