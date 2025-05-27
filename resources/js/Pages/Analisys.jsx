@@ -192,7 +192,7 @@ export default function Analisys() {
       {/* Layout 2 kolom */}
       <div className="flex flex-col md:flex-row gap-6">
         {/* Kiri: Lokasi & Peta */}
-        <Card className="flex-1 p-6 font-poppins rounded-2xl border-none bg-[#325700]" >
+        <div className="flex-1 p-0 font-poppins bg-transparent">
           <Label className="text-white font-livvic font-bold text-lg">Lokasi</Label>
           <Input
             type="text"
@@ -212,16 +212,11 @@ export default function Analisys() {
             <DraggableMarker />
             <ChangeMapView coords={coords} />
           </MapContainer>
-          {/* <p className="text-white mt-2 text-sm">
-            Lat: {coords[0].toFixed(6)}, Lng: {coords[1].toFixed(6)}
-          </p> */}
-        </Card>
+        </div>
 
         {/* Kanan: Upload Gambar */}
-        <Card className="flex-1 p-6 font-poppins mb-8 rounded-2xl border-none bg-[#325700] flex flex-col justify-between">
+        <div className="flex-1 p-0 font-poppins mb-8 bg-transparent flex flex-col justify-between">
           <Label className="text-white font-livvic font-bold text-lg">Foto Lahan</Label>
-          
-          {/* Pindahkan input file ke atas frame gambar */}
           <label htmlFor="upload" className="flex flex-col items-center w-full cursor-pointer mb-4">
             <Input
               id="upload"
@@ -231,8 +226,8 @@ export default function Analisys() {
               className="hidden"
             />
             <div
-              className="flex items-center w-full border mb-8 border-white rounded-md overflow-hidden bg-opacity-80 bg-white"
-              style={{  fontSize: 16 }}
+              className="flex items-center w-full border mt-2 mb-8 border-white rounded-md overflow-hidden bg-opacity-80 bg-white"
+              style={{ fontSize: 16 }}
             >
               <span className="bg-[#325700] text-white px-4 py-2 text-sm font-bold h-full flex items-center">
                 Pilih File
@@ -242,9 +237,8 @@ export default function Analisys() {
               </span>
             </div>
           </label>
-
           <div
-            className="bg-[#D9D9D9] mt-4 rounded-2xl border-2 border-dashed border-[#2B4F00] px-4 py-10 flex flex-col items-center justify-center text-center space-y-4 relative min-h-[350px]"
+            className="bg-[#D9D9D9] mt-3 rounded-2xl border-2 border-dashed border-[#2B4F00] px-4 py-10 flex flex-col items-center justify-center text-center space-y-4 relative min-h-[350px]"
             style={
               previewUrl
                 ? {
@@ -281,11 +275,11 @@ export default function Analisys() {
               </button>
             )}
           </div>
-        </Card>
+        </div>
       </div>
 
       {/* Tombol Analisis di tengah */}
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-8">
         <Button
           onClick={handleAnalyze}
           className="w-full max-w-md bg-[#FFFA72] text-[#325700] hover:bg-[#e6e666] font-livvic font-bold text-lg py-3 rounded"

@@ -27,3 +27,4 @@ export default function AnalysisResult({ result }) {
     </Card>
   );
 }
+  
