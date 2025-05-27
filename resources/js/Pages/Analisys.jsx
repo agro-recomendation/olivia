@@ -144,10 +144,10 @@ export default function Analisys() {
     formData.append('location', location);
     formData.append('latitude', coords[0]);
     formData.append('longitude', coords[1]);
-    formData.append('photo', file);
+    formData.append('image', file);
 
     try {
-      const response = await fetch('/api/plant-analysis', {
+      const response = await fetch('/api/plant_recomendation/analyze', {
         method: 'POST',
         body: formData,
       });
