@@ -52,8 +52,9 @@ export default function Home({ auth }) {
         className="relative h-auto md:h-[550px] bg-cover bg-center text-white flex items-center"
         style={{ backgroundImage: "url('/images/bg1.png')" }}
       >
+        <div className="absolute inset-0 bg-black bg-opacity-30 z-0"></div>
         <Container>
-          <div className="py-8 md:max-w-2xl max-w-full space-y-6 text-center md:text-left px-4">
+          <div className="py-8 md:max-w-2xl max-w-full space-y-6 text-center md:text-left px-4 relative z-10">
             <h1 className="font-livvic font-bold text-4xl md:text-[64px] leading-tight text-[#FFFA72]">
               Pertanian Cerdas
             </h1>
@@ -64,8 +65,8 @@ export default function Home({ auth }) {
               Manfaatkan teknologi untuk mengetahui potensi tanaman terbaik di wilayahmu, deteksi dini penyakit tanaman, serta prediksi musim tanam & panen secara otomatis.
             </p>
             <button 
-            onClick={() => document.getElementById('fitur')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white text-[#2E4D1C] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-[#f3f3f3] transition">
+              onClick={() => document.getElementById('fitur')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-white text-[#2E4D1C] px-6 py-3 rounded-2xl font-semibold shadow-md hover:bg-[#f3f3f3] transition">
               JELAJAHI FITUR
             </button>
           </div>

@@ -20,6 +20,7 @@
         @routes
         @viteReactRefresh
         @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
+        <link rel="icon" type="image/png" href="{{ asset('images/logo-Agro.png') }}">
         @inertiaHead
     </head>
     <body class="font-sans antialiased">

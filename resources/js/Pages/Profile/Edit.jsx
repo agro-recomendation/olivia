@@ -1,39 +1,77 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
-import DeleteUserForm from './Partials/DeleteUserForm';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm';
-import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
+// resources/js/Pages/Profile/Edit.jsx
 
-export default function Edit({ mustVerifyEmail, status }) {
+import Sidebar from '@/Components/Sidebar';
+import ProfileCard from '@/Components/ProfileCard';
+import { Head, useForm } from '@inertiajs/react';
+
+export default function Edit({ auth }) {
+    const { data, setData, patch, processing, errors } = useForm({
+        name: auth.user.name,
+        email: auth.user.email,
+    });
+
+    const submit = (e) => {
+        e.preventDefault();
+        patch(route('profile.update'));
+    };
+
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Profile
-                </h2>
-            }
-        >
-            <Head title="Profile" />
+        <>
+            <Head title="Ubah Profil" />
+            <div className="flex min-h-screen bg-[#F7FFE5]">
+                {/* Sidebar */}
+                <Sidebar active="profile" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800">
-                        <UpdateProfileInformationForm
-                            mustVerifyEmail={mustVerifyEmail}
-                            status={status}
-                            className="max-w-xl"
-                        />
-                    </div>
+                {/* Konten Utama */}
+                <main className="flex-1 p-10">
+                    <div className="max-w-4xl mx-auto space-y-10">
+                        {/* Judul Halaman */}
+                        <h1 className="text-3xl font-livvic font-bold text-[#2B5400]">Edit Profil</h1>
 
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800">
-                        <UpdatePasswordForm className="max-w-xl" />
-                    </div>
+                        {/* Kartu Profil */}
+                        <ProfileCard
+                            title="Data Profil"
+                            image="/Profile.png"
+                        >
+                            <form onSubmit={submit} className="space-y-6">
+                                <div>
+                                    <label className="block mb-1 font-medium">Nama</label>
+                                    <input
+                                        type="text"
+                                        value={data.name}
+                                        onChange={(e) => setData('name', e.target.value)}
+                                        className="w-full p-3 font-poppins rounded-lg border border-gray-300 text-black"
+                                        required
+                                    />
+                                    {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                                </div>
 
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800">
-                        <DeleteUserForm className="max-w-xl" />
+                                <div>
+                                    <label className="block mb-1 font-medium">Email</label>
+                                    <input
+                                        type="email"
+                                        value={data.email}
+                                        onChange={(e) => setData('email', e.target.value)}
+                                        className="w-full p-3 font-poppins rounded-lg border border-gray-300 text-black"
+                                        required
+                                    />
+                                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                                </div>
+
+                                <div className="text-right">
+                                    <button
+                                        type="submit"
+                                        className="bg-[#FFF264] text-[#2B5400] font-bold py-2 px-6 rounded-lg shadow hover:bg-yellow-300 transition"
+                                        disabled={processing}
+                                    >
+                                        Ubah
+                                    </button>
+                                </div>
+                            </form>
+                        </ProfileCard>
                     </div>
-                </div>
+                </main>
             </div>
-        </AuthenticatedLayout>
+        </>
     );
 }
