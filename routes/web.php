@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PlantRecomendation\GetPlantRecomendationController;
+use App\Http\Controllers\Message\SendMessageController;
 
 Route::get('/', function () {
     return Inertia::render('Home', [
@@ -54,6 +55,10 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('plant_recomendation')->group(function () {
     Route::post('/analyze', [GetPlantRecomendationController::class, 'store'])->name('plant.recomendation.analyze');
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/message/send', SendMessageController::class);
 });
 
 require __DIR__.'/auth.php';

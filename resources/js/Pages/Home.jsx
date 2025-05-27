@@ -27,8 +27,8 @@ export default function Home({ auth }) {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          // Jika pakai sanctum, pastikan user sudah login dan cookie sudah ada
         },
+        credentials: 'include', // penting untuk sanctum!
         body: JSON.stringify({
           telephone: contact.telephone,
           message: contact.message,
