@@ -44,6 +44,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Route untuk halaman ubah password (Keamanan)
+    Route::get('/profile/security', function () {
+        return Inertia::render('Profile/EditPassword');
+    })->name('profile.password');
+
+    // Route untuk proses update password
+    Route::put('/password', [\App\Http\Controllers\Auth\PasswordController::class, 'update'])->name('password.update');
 });
 
 Route::middleware('auth')->group(function () {
