@@ -25,7 +25,7 @@ function ChangeMapView({ coords }) {
   }, [coords, map]);
   return null;
 }
-
+  
 export default function Analisys() {
   const [location, setLocation] = useState('');
   const [coords, setCoords] = useState([-6.9824, 110.4091]); // Default koordinat
@@ -150,9 +150,20 @@ export default function Analisys() {
                   />
                 </svg>
               </Button>
+              <h2 className="text-lg font-livvic font-bold mb-4 mt-2 " style={{ color: '#FFFFFF' }}>
+                  Lokasi pada Peta
+              </h2>
+              {/* Peta */}
+               <MapContainer center={coords} zoom={13} style={{ height: '500px', width: '100%' }}>
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={coords} />
+                    <ChangeMapView coords={coords} />
+                  </MapContainer>
             </div>
           </div>
-
           <div>
             <Label className="text-white font-livvic font-bold text-lg">Foto Lahan</Label>
             <div className="mt-2 bg-[#D9D9D9] rounded-2xl border-2 border-dashed border-[#2B4F00] px-4 py-10 flex flex-col items-center justify-center text-center space-y-4">
@@ -194,22 +205,7 @@ export default function Analisys() {
         </div>
       </Card>
 
-      {/* Peta */}
-      <div>
-        <h2 className="text-2xl font-livvic font-bold mb-4 ml-5" style={{ color: '#FFFFFF' }}>
-          Lokasi pada Peta
-        </h2>
-        <Card className="p-6 overflow-hidden border-none" style={{ backgroundColor: '#325700' }}>
-          <MapContainer center={coords} zoom={13} style={{ height: '500px', width: '100%' }}>
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={coords} />
-            <ChangeMapView coords={coords} />
-          </MapContainer>
-        </Card>
-      </div>
+      
 
       {/* Hasil Analisis */}
       {analysisResult && <AnalysisResult result={analysisResult} />}
