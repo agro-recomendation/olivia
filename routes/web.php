@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 use App\Http\Controllers\PlantRecomendation\GetPlantRecomendationController;
 
 Route::get('/', function () {
@@ -15,9 +16,9 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/home', function () {
+        return Inertia::render('Home');
+    })->middleware(['auth', 'verified'])->name('home');
 
 
     Route::get('/analisis-potensi-tanaman', function () {
@@ -27,6 +28,17 @@ Route::get('/dashboard', function () {
     Route::get('/analisis-penyakit-tanaman', function () {
         return Inertia::render('DeteksiPenyakitTanaman'); 
     })->middleware(['auth', 'verified'])->name('analisis.penyakit');
+
+    Route::post('/hasil-analisis', function (Request $request) {
+    return Inertia::render('AnalysisDisease', [
+        'alamat' => $request->input('alamat'),
+        'fileUrl' => $request->file('file') ? $request->file('file')->store('uploads', 'public') : null,
+    ]);
+    });
+
+    Route::get('/prediksi-musim-tanam', function () {
+        return Inertia::render('PrediksiPanen'); 
+    })->middleware(['auth', 'verified'])->name('deteksi.panen');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
