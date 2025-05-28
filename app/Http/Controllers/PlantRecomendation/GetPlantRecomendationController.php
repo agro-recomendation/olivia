@@ -17,10 +17,11 @@ class GetPlantRecomendationController extends Controller
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'latitude' => 'required|numeric',
                 'longitude' => 'required|numeric',
+                'user_id' => 'required|exists:users,id', // Optional user ID for authenticated users
             ]);
 
             Log::info('Request received for plant recommendation', [
-                'user_id' => optional($request->user())->id,
+                'user_id' => $validatedData['user_id'],
                 'latitude' => $validatedData['latitude'],
                 'longitude' => $validatedData['longitude'],
             ]);

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PlantRecomendation\GetPlantRecomendationController;
@@ -55,6 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/password', [\App\Http\Controllers\Auth\PasswordController::class, 'update'])->name('password.update');
 });
 
+
+Route::post('/plant_recomendation/analyze', [GetPlantRecomendationController::class, 'store']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/history-plant-recomendation', [App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'index'])->name('history.plant.recomendation.index');
     Route::get('/history-plant-recomendation/{id}', [App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'show'])->name('history.plant.recomendation.show');
@@ -65,8 +69,6 @@ Route::prefix('plant_recomendation')->group(function () {
     Route::post('/analyze', [GetPlantRecomendationController::class, 'store'])->name('plant.recomendation.analyze');
 });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/message/send', SendMessageController::class);
-});
+
 
 require __DIR__.'/auth.php';

@@ -39,7 +39,7 @@ async function reverseGeocode(lat, lon) {
   }
 }
 
-export default function Analisys() {
+export default function Analisys({ auth }) {
   const [location, setLocation] = useState('');
   const [coords, setCoords] = useState([-6.9824, 110.4091]);
   const [file, setFile] = useState(null);
@@ -69,6 +69,10 @@ export default function Analisys() {
     }, 800);
     return () => clearTimeout(debounceRef.current);
   }, [location]);
+
+  const user_id = auth?.user?.id || null;
+
+  const [contactStatus, setContactStatus] = useState(null);
 
   // Marker yang bisa digeser & update input lokasi
   function DraggableMarker() {
@@ -145,6 +149,7 @@ export default function Analisys() {
     formData.append('latitude', coords[0]);
     formData.append('longitude', coords[1]);
     formData.append('image', file);
+    if (user_id) formData.append('user_id', user_id); // tambahkan user_id jika ada
 
     try {
       const response = await fetch('/api/plant_recomendation/analyze', {

@@ -4,6 +4,8 @@ use App\Http\Controllers\PlantRecomendation\GetPlantRecomendationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Message\SendMessageController;
+// use Illuminate\Container\Attributes\Log;
+use Illuminate\Support\Facades\Log;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -11,6 +13,5 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/plant_recomendation/analyze', [GetPlantRecomendationController::class, 'store']);
 
-Route::middleware('auth:sanctum')->group(function () {
+
     Route::post('/message/send', SendMessageController::class);
-});

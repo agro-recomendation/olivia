@@ -11,6 +11,7 @@ export default function Home({ auth }) {
   const [contact, setContact] = useState({
     telephone: '',
     message: '',
+    user_id: auth.user ? auth.user.id : null,
   });
   const [contactStatus, setContactStatus] = useState(null);
 
@@ -28,10 +29,11 @@ export default function Home({ auth }) {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        credentials: 'include', // penting untuk sanctum!
+        credentials: 'include',
         body: JSON.stringify({
           telephone: contact.telephone,
           message: contact.message,
+          user_id: contact.user_id,
         }),
       });
       if (!res.ok) throw new Error('Gagal mengirim pesan');
