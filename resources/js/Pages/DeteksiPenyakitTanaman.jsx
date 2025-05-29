@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 
-function AnalysisDisease({ alamat, file }) {
+function AnalysisDisease({ file, user_id }) {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -14,6 +14,7 @@ function AnalysisDisease({ alamat, file }) {
 
     const formData = new FormData();
     formData.append('image', file);
+    if (user_id) formData.append('user_id', user_id);
 
     fetch('/api/disease/analyze', {
       method: 'POST',
@@ -26,7 +27,7 @@ function AnalysisDisease({ alamat, file }) {
       })
       .catch(() => setError('Gagal melakukan analisis.'))
       .finally(() => setLoading(false));
-  }, [file]);
+  }, [file, user_id]);
 
   if (loading) return <div className="text-white">Analisis gambar...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
@@ -35,15 +36,23 @@ function AnalysisDisease({ alamat, file }) {
   return (
     <div className="bg-white rounded-xl p-6 mt-8 shadow-lg max-w-xl mx-auto">
       <h2 className="text-xl font-bold mb-2 text-[#2B4F00]">Hasil Deteksi Penyakit</h2>
+      {/* Tampilkan gambar hasil upload */}
+      <div className="mb-4 flex justify-center">
+        <img
+          src={URL.createObjectURL(file)}
+          alt="Tanaman yang diunggah"
+          className="max-h-64 rounded shadow"
+        />
+      </div>
       <div><strong>Penyakit:</strong> {result.predicted_label}</div>
       <div><strong>Akurasi:</strong> {result.confidence ? (result.confidence * 100).toFixed(2) + '%' : '-'}</div>
       <div className="mt-2"><strong>Penjelasan:</strong> {result.description}</div>
-      <div className="mt-2"><strong>Manfaat/Penanganan:</strong> {result.treatment}</div>
+      <div className="mt-2"><strong>Penanganan:</strong> {result.treatment}</div>
     </div>
   );
 }
 
-export default function DeteksiPenyakitTanaman() {
+export default function DeteksiPenyakitTanaman({ auth }) {
   const [file, setFile] = useState(null);  
   const [alamat, setAlamat] = useState('');
   const [showAnalysis, setShowAnalysis] = useState(false);
@@ -130,7 +139,12 @@ export default function DeteksiPenyakitTanaman() {
       )}
 
       {/* Tampilkan hasil analisis */}
-      {showAnalysis && <AnalysisDisease alamat={alamat} file={file} />}
+      {showAnalysis && (
+        <AnalysisDisease
+          file={file}
+          user_id={auth?.user ? auth.user.id : null}
+        />
+      )}
     </div>
   );
 }
