@@ -9,6 +9,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
 import BackHeader from '@/Components/BackHeader';
+import FileInputBox from '@/Components/FileInputBox';
 import FileUploadBox from '@/Components/FileUploadBox';
 import DraggableMarker from '@/Components/DraggableMarker';
 
@@ -95,14 +96,6 @@ export default function Analisys() {
     }
   };
 
-  const handleFileChange = (e) => {
-    const uploadedFile = e.target.files[0];
-    if (uploadedFile) {
-      setFile(uploadedFile);
-      setPreviewUrl(URL.createObjectURL(uploadedFile));
-    }
-  };
-
   const handleAnalyze = async () => {
     if (!location || !file) {
       alert('Lokasi dan foto tanah harus diisi.');
@@ -175,12 +168,16 @@ export default function Analisys() {
         </div>
 
         {/* Kanan: Upload Gambar */}
-        <div className="flex-1 p-0 font-poppins mb-8 bg-transparent flex flex-col justify-between">
+        <div className="flex-1 p-0 font-poppins mb-0 bg-transparent flex flex-col justify-between">
           <Label className="text-white font-livvic font-bold text-lg">Foto Lahan</Label>
-          <FileUploadBox
+          <FileInputBox
             file={file}
             setFile={setFile}
+            setPreviewUrl={setPreviewUrl}
+          />
+          <FileUploadBox
             previewUrl={previewUrl}
+            setFile={setFile}
             setPreviewUrl={setPreviewUrl}
           />
         </div>
@@ -201,7 +198,7 @@ export default function Analisys() {
       {error && <p className="text-red-400 mt-2 text-center">{error}</p>}
 
       {/* Hasil Analisis */}
-      {analysisResult && <div className="mt-8"><AnalysisResult result={analysisResult} /></div>}
+      {analysisResult && <div className="mt-2"><AnalysisResult result={analysisResult} /></div>}
     </div>
   );
 }

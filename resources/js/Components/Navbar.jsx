@@ -82,7 +82,7 @@ export default function Navbar({ auth }) {
                 </a>
               </li>
               <li>
-                <a href="/deteksi-penyakit-tanaman" className="block px-4 py-2 hover:bg-gray-100 border-b" style={{ borderColor: '#FFFA72' }}>
+                <a href="/analisis-penyakit-tanaman" className="block px-4 py-2 hover:bg-gray-100 border-b" style={{ borderColor: '#FFFA72' }}>
                   Deteksi penyakit tanaman
                 </a>
               </li>
