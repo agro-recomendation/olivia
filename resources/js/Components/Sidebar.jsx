@@ -55,11 +55,19 @@ export default function Sidebar({ active }) {
                     {/* Aktivitas */}
                     {/* <h2 className="mt-6 text-lg font-semibold">Aktivitas</h2> */}
                     <nav className="space-y-2">
-                        <Link href="/riwayat-analisis" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[#A6B87E]/40">
+                        <Link
+                            href={route('riwayat.analisis')}
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[#A6B87E]/40 ${
+                                active === 'riwayat.analisis' ? 'bg-[#A6B87E] text-[#FFFA72] [&_svg]:text-[#FFFA72]' : ''
+                            }`}
+                        >
                             <FileText className="w-5 h-5" />
                             Riwayat Analisis
                         </Link>
-                        <Link href="/riwayat-deteksi" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[#A6B87E]/40">
+                        <Link
+                            href="/riwayat-deteksi"
+                            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[#A6B87E]/40"
+                        >
                             <ClipboardList className="w-5 h-5" />
                             Riwayat Deteksi
                         </Link>

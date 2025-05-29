@@ -46,6 +46,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function plantRecomendations()
+    {
+        return $this->hasMany(\App\Models\PlantRecomendation::class);
+    }
+
     public function messages()
     {
         return $this->hasMany(Message::class);
