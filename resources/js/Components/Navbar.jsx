@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { route } from 'ziggy-js';
 import { Inertia } from '@inertiajs/inertia';
+import { Settings, LogOut } from 'lucide-react';
+import ProfileOpen from './ProfileOpen';
 
 export default function Navbar({ auth }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -110,20 +112,11 @@ export default function Navbar({ auth }) {
             </button>
 
             {profileMenuOpen && (
-              <div className="absolute right-0 mt-3 w-60 bg-white rounded-xl shadow-xl text-center py-5 z-20">
-                <img
-                  src={auth.user.photo || '/Images/profile.jpg'}
-                  alt="User"
-                  className="w-16 h-16 rounded-full object-cover mx-auto"
-                />
-                <p className="text-[#355C00] font-semibold text-lg mt-2">{auth.user.name}</p>
-                <button
-                  onClick={handleLogout}
-                  className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
-                >
-                  Keluar
-                </button>
-              </div>
+              <ProfileOpen
+                auth={auth}
+                handleLogout={handleLogout}
+                onProfile={() => Inertia.visit('/profile')}
+              />
             )}
           </div>
         ) : (

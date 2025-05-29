@@ -4,9 +4,13 @@ import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+
+import BackHeader from '@/Components/BackHeader';
+import FileUploadBox from '@/Components/FileUploadBox';
+import DraggableMarker from '@/Components/DraggableMarker';
 
 // Perbaikan ikon Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -175,24 +179,7 @@ export default function Analisys({ auth }) {
       style={{ backgroundColor: '#325700', color: 'white' }}
     >
       {/* Judul dan Tombol Kembali */}
-      <div
-        className="flex items-center space-x-4 cursor-pointer text-[#FFFA72]"
-        onClick={handleBack}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={2}
-          stroke="currentColor"
-          className="w-9 h-9"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-        </svg>
-        <h1 className="font-livvic font-bold text-4xl md:text-[35px] leading-tight text-[#FFFA72]">
-          Analisis Potensi Tanaman
-        </h1>
-      </div>
+      <BackHeader onBack={handleBack} title="Analisis Potensi Tanaman" />
 
       {/* Layout 2 kolom */}
       <div className="flex flex-col md:flex-row gap-6">
@@ -214,7 +201,12 @@ export default function Analisys({ auth }) {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <DraggableMarker />
+            <DraggableMarker
+              coords={coords}
+              setCoords={setCoords}
+              setLocation={setLocation}
+              reverseGeocode={reverseGeocode}
+            />
             <ChangeMapView coords={coords} />
           </MapContainer>
         </div>
@@ -222,64 +214,12 @@ export default function Analisys({ auth }) {
         {/* Kanan: Upload Gambar */}
         <div className="flex-1 p-0 font-poppins mb-8 bg-transparent flex flex-col justify-between">
           <Label className="text-white font-livvic font-bold text-lg">Foto Lahan</Label>
-          <label htmlFor="upload" className="flex flex-col items-center w-full cursor-pointer mb-4">
-            <Input
-              id="upload"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-            <div
-              className="flex items-center w-full border mt-2 mb-8 border-white rounded-md overflow-hidden bg-opacity-80 bg-white"
-              style={{ fontSize: 16 }}
-            >
-              <span className="bg-[#325700] text-white px-4 py-2 text-sm font-bold h-full flex items-center">
-                Pilih File
-              </span>
-              <span className="flex-1 px-4 py-2 bg-white text-gray-500 text-sm truncate h-full flex items-center">
-                {file ? file.name : 'Tidak ada file yang dipilih'}
-              </span>
-            </div>
-          </label>
-          <div
-            className="bg-[#D9D9D9] mt-3 rounded-2xl border-2 border-dashed border-[#2B4F00] px-4 py-10 flex flex-col items-center justify-center text-center space-y-4 relative min-h-[350px]"
-            style={
-              previewUrl
-                ? {
-                    backgroundImage: `url(${previewUrl})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    color: '#fff',
-                    border: '2px solid #2B4F00',
-                  }
-                : {}
-            }
-          >
-            {!previewUrl && (
-              <>
-                <div className="w-10 h-10 rounded-full bg-gradient-to-b from-white to-[#C7E7C7] flex items-center justify-center shadow-md">
-                  <div className="text-[#2B4F00] text-3xl font-bold">+</div>
-                </div>
-                <p className="text-black font-livvic text-base font-semibold">Seret atau letakan file</p>
-              </>
-            )}
-            {previewUrl && (
-              <button
-                type="button"
-                onClick={() => {
-                  setFile(null);
-                  setPreviewUrl(null);
-                }}
-                className="absolute top-2 right-2 bg-white bg-opacity-70 rounded-full p-1 text-[#2B4F00] hover:bg-opacity-100"
-                title="Hapus gambar"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            )}
-          </div>
+          <FileUploadBox
+            file={file}
+            setFile={setFile}
+            previewUrl={previewUrl}
+            setPreviewUrl={setPreviewUrl}
+          />
         </div>
       </div>
 
