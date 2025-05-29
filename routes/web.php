@@ -58,6 +58,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/history-plant-recomendation', [App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'index'])->name('history.plant.recomendation.index');
     Route::get('/history-plant-recomendation/{id}', [App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'show'])->name('history.plant.recomendation.show');
     Route::delete('/history-plant-recomendation/{id}', [App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'destroy'])->name('history.plant.recomendation.destroy');
+    Route::get('/riwayat-analisis', [\App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'index'])
+        ->name('riwayat.analisis');
 });
 
 Route::prefix('plant_recomendation')->group(function () {
