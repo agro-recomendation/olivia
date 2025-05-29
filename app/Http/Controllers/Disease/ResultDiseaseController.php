@@ -32,10 +32,12 @@ class ResultDiseaseController extends Controller
 
                 // Simpan ke result_diseases jika ada user_id dan disease ditemukan
                 if ($request->user_id && $disease) {
+                    $image = $request->file('image')->store('disease_images', 'public');
                     \App\Models\ResultDisease::create([
                         'user_id' => $request->user_id,
                         'disease_id' => $disease->id,
                         'accuracy' => $data['confidence'] ?? null,
+                        'image_path' => $image,
                     ]);
                 }
 
