@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
+import FileInputBox from '../Components/FileInputBox';
+import FileUploadBox from '../Components/FileUploadBox';
 
 function AnalysisDisease({ file, user_id }) {
   const [result, setResult] = useState(null);
@@ -54,8 +56,8 @@ function AnalysisDisease({ file, user_id }) {
 
 export default function DeteksiPenyakitTanaman({ auth }) {
   const [file, setFile] = useState(null);  
-  const [alamat, setAlamat] = useState('');
   const [showAnalysis, setShowAnalysis] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState('');
 
   const handleBack = () => window.history.back();
 
