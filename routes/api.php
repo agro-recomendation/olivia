@@ -15,3 +15,7 @@ Route::post('/plant_recomendation/analyze', [GetPlantRecomendationController::cl
 
 
     Route::post('/message/send', SendMessageController::class);
+
+Route::prefix('disease')->group(function () {
+    Route::post('/analyze', [\App\Http\Controllers\Disease\ResultDiseaseController::class, 'analyze']);
+});

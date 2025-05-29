@@ -1,6 +1,48 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 
+function AnalysisDisease({ alamat, file }) {
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  React.useEffect(() => {
+    if (!file) return;
+    setLoading(true);
+    setError('');
+    setResult(null);
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    fetch('/api/disease/analyze', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error('Gagal analisis');
+        const data = await res.json();
+        setResult(data);
+      })
+      .catch(() => setError('Gagal melakukan analisis.'))
+      .finally(() => setLoading(false));
+  }, [file]);
+
+  if (loading) return <div className="text-white">Analisis gambar...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
+  if (!result) return null;
+
+  return (
+    <div className="bg-white rounded-xl p-6 mt-8 shadow-lg max-w-xl mx-auto">
+      <h2 className="text-xl font-bold mb-2 text-[#2B4F00]">Hasil Deteksi Penyakit</h2>
+      <div><strong>Penyakit:</strong> {result.predicted_label}</div>
+      <div><strong>Akurasi:</strong> {result.confidence ? (result.confidence * 100).toFixed(2) + '%' : '-'}</div>
+      <div className="mt-2"><strong>Penjelasan:</strong> {result.description}</div>
+      <div className="mt-2"><strong>Manfaat/Penanganan:</strong> {result.treatment}</div>
+    </div>
+  );
+}
+
 export default function DeteksiPenyakitTanaman() {
   const [file, setFile] = useState(null);  
   const [alamat, setAlamat] = useState('');
