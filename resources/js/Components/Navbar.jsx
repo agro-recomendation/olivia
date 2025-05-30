@@ -87,8 +87,8 @@ export default function Navbar({ auth }) {
                 </a>
               </li>
               <li>
-                <a href="#prediksi" className="block px-4 py-2 hover:bg-gray-100">
-                  Prediksi musim tanam & panen
+                <a href="/peta-komoditas-pertanian" className="block px-4 py-2 hover:bg-gray-100">
+                  Peta Komoditas Pertanian
                 </a>
               </li>
             </ul>

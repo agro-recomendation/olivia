@@ -76,6 +76,9 @@ Route::prefix('plant_recomendation')->group(function () {
     
 });
 
+Route::get('/peta-komoditas-pertanian', function () {
+    return Inertia::render('KomoditasPertanian');
+})->middleware(['auth', 'verified'])->name('peta-komoditas.pertanian');
 
 
 require __DIR__.'/auth.php';

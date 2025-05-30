@@ -131,9 +131,9 @@ export default function Home({ auth }) {
           link: '/analisis-penyakit-tanaman',
         },
         {
-          title: 'Prediksi Musim Tanam & Panen',
+          title: 'Peta Komoditas Pertanian',
           image: '/images/fitur3.png',
-          link: '/prediksi-musim-tanam',
+          link: '/peta-komoditas-pertanian',
         },
       ].map((f, i) => (
         <div
