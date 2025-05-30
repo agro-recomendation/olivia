@@ -83,7 +83,6 @@ class GetPlantRecomendationController extends Controller
                     'plants' => $plants,
                 ];
 
-                // Simpan ke database jika user login (kode Anda sebelumnya)
                 if ($request->user_id) {
                     Log::info('User authenticated, saving data', ['user_id' => $request->user_id]);
                     $plantRecomendation = new \App\Models\PlantRecomendation();
