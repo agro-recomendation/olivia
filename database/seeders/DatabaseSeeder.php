@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(DiseaseSeeder::class);
+
+        $this->call(UseSeeder::class);
     }
 
     
