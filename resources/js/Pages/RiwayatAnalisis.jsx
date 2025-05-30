@@ -75,23 +75,89 @@ export default function RiwayatAnalisis({ histories = [] }) {
         {/* Modal untuk hasil analisis */}
         {showModal && selectedResult && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
-            <div className="bg-[#2B4F00] rounded-2xl p-6 max-w-2xl w-full relative">
-              <button
-                className="absolute top-3 right-3 text-white text-2xl font-bold"
-                onClick={() => setShowModal(false)}
-                aria-label="Tutup"
-              >
-                &times;
-              </button>
-              {/* Hilangkan atau jangan tampilkan gambar di sini */}
-              <AnalysisResult
-                result={{
-                  soil: selectedResult.soil,
-                  weather: selectedResult.weather,
-                  plants: selectedResult.plants,
-                }}
-                showImage={false}
-              />
+            <div className="bg-[#2B4F00] rounded-[24px] px-6 py-8 w-[90%] max-w-lg text-white shadow-lg relative">
+              <h2 className="text-xl font-livvic text-[#F8E559] font-bold mb-4 text-center">Detail Hasil Analisis</h2>
+              <div className="space-y-3 font-livvic text-base">
+                <div className="flex">
+                  <span className="w-32 text-[#F8E559] font-bold">Lokasi</span>
+                  <span className="mx-1">:</span>
+                  <span className="flex-1">
+                    {selectedResult.soil?.location || selectedResult.location || '-'}
+                  </span>
+                </div>
+                <div className="flex">
+                  <span className="w-32 text-[#F8E559] font-bold">Jenis Tanah</span>
+                  <span className="mx-1">:</span>
+                  <span className="flex-1">{selectedResult.soil?.type || selectedResult.soil?.soil_type || '-'}</span>
+                </div>
+                <div className="flex">
+                  <span className="w-32 text-[#F8E559] font-bold">Cuaca</span>
+                  <span className="mx-1">:</span>
+                  <span className="flex-1">
+                    {selectedResult.soil?.temperature
+                      ? parseFloat(selectedResult.soil.temperature).toFixed(2) + '°C'
+                      : '-'}
+                  </span>
+                </div>
+                <div className="flex">
+                  <span className="w-32 text-[#F8E559] font-bold">pH</span>
+                  <span className="mx-1">:</span>
+                  <span className="flex-1">
+                    {selectedResult.soil?.pH ? parseFloat(selectedResult.soil.pH).toFixed(2) : '-'}
+                  </span>
+                </div>
+                <div className="flex">
+                  <span className="w-32 text-[#F8E559] font-bold">Potassium</span>
+                  <span className="mx-1">:</span>
+                  <span className="flex-1">
+                    {selectedResult.soil?.K ? parseFloat(selectedResult.soil.K).toFixed(2) : '-'}
+                  </span>
+                </div>
+                <div className="flex">
+                  <span className="w-32 text-[#F8E559] font-bold">Nitrogen</span>
+                  <span className="mx-1">:</span>
+                  <span className="flex-1">
+                    {selectedResult.soil?.N ? parseFloat(selectedResult.soil.N).toFixed(2) : '-'}
+                  </span>
+                </div>
+                <div className="flex">
+                  <span className="w-32 text-[#F8E559] font-bold">Phosphorus</span>
+                  <span className="mx-1">:</span>
+                  <span className="flex-1">
+                    {selectedResult.soil?.P ? parseFloat(selectedResult.soil.P).toFixed(2) : '-'}
+                  </span>
+                </div>
+                <div className="flex items-start">
+                  <span className="w-32 text-[#F8E559] font-bold">Tanaman yang Cocok</span>
+                  <span className="mx-1">:</span>
+                  <div className="flex-1 space-y-1">
+                    {selectedResult.plants && selectedResult.plants.length > 0 ? (
+                      <ul className="list-disc list-inside ml-4">
+                        {selectedResult.plants.map((plant) => (
+                          <li key={plant.id}>
+                            {plant.name}{' '}
+                            {plant.recommendation_percentage !== undefined
+                              ? `(${plant.recommendation_percentage}%)`
+                              : plant.accuracy !== undefined
+                              ? `(${plant.accuracy}%)`
+                              : ''}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <span>-</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-8 flex justify-end">
+                <button
+                  className="bg-[#F8E559] font-livvic text-[#325700] font-bold px-6 py-2 rounded-md hover:bg-yellow-300 transition"
+                  onClick={() => setShowModal(false)}
+                >
+                  Selesai
+                </button>
+              </div>
             </div>
           </div>
         )}

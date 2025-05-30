@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from '@/Components/Sidebar';
 import { format } from 'date-fns';
+import { router } from '@inertiajs/react';
 
 export default function RiwayatDeteksi({ histories = [] }) {
   const [data, setData] = useState(histories);
@@ -10,6 +11,14 @@ export default function RiwayatDeteksi({ histories = [] }) {
   const handleView = (item) => {
     setSelectedResult(item);
     setShowModal(true);
+  };
+
+  const handleDelete = (id) => {
+    if (!window.confirm('Yakin ingin menghapus riwayat ini?')) return;
+    router.delete(route('riwayat.deteksi.destroy', id), {
+      onSuccess: () => setData((prev) => prev.filter((item) => item.id !== id)),
+    });
+    if (selectedResult && selectedResult.id === id) setShowModal(false);
   };
 
   return (
@@ -50,12 +59,18 @@ export default function RiwayatDeteksi({ histories = [] }) {
                         />
                       ) : '-'}
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 space-x-2">
                       <button
                         className="bg-[#2B4F00] text-white px-3 py-1 rounded hover:bg-[#406e00] transition"
                         onClick={() => handleView(item)}
                       >
                         Lihat
+                      </button>
+                      <button
+                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        Hapus
                       </button>
                     </td>
                   </tr>
@@ -68,49 +83,50 @@ export default function RiwayatDeteksi({ histories = [] }) {
         {/* Modal untuk detail deteksi */}
         {showModal && selectedResult && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
-            <div className="bg-[#2B4F00] rounded-2xl p-6 max-w-2xl w-full relative text-white">
-              <button
-                className="absolute top-3 right-3 text-white text-2xl font-bold"
-                onClick={() => setShowModal(false)}
-                aria-label="Tutup"
-              >
-                &times;
-              </button>
-              <h2 className="text-2xl font-bold mb-4">Detail Deteksi Penyakit</h2>
-              <div className="flex flex-col md:flex-row gap-6">
-                <div className="flex-1 flex justify-center items-center">
-                  {selectedResult.image_path ? (
-                    <img
-                      src={`/storage/${selectedResult.image_path}`}
-                      alt="Tanaman"
-                      className="w-48 h-48 object-cover rounded"
-                    />
-                  ) : (
-                    <div className="text-gray-300">Tidak ada gambar</div>
-                  )}
-                </div>
-                <div className="flex-1 space-y-2">
-                  <div>
-                    <span className="font-semibold">Tanggal:</span>{' '}
-                    {selectedResult.created_at ? format(new Date(selectedResult.created_at), 'dd/MM/yyyy HH:mm') : '-'}
-                  </div>
-                  <div>
-                    <span className="font-semibold">Nama Penyakit:</span>{' '}
-                    {selectedResult.disease?.name || '-'}
-                  </div>
-                  <div>
-                    <span className="font-semibold">Akurasi:</span>{' '}
-                    {selectedResult.accuracy ? (selectedResult.accuracy * 100).toFixed(2) + '%' : '-'}
-                  </div>
-                  <div>
-                    <span className="font-semibold">Penjelasan:</span>{' '}
-                    {selectedResult.disease?.description || '-'}
-                  </div>
-                  <div>
-                    <span className="font-semibold">Penanganan:</span>{' '}
-                    {selectedResult.disease?.treatment || '-'}
-                  </div>
-                </div>
+            <div className="bg-[#325700] rounded-[32px] p-6 max-w-md w-full text-white relative">
+              <h2 className="text-xl font-livvic text-[#F8E559] font-bold mb-4 text-center">Detail Hasil Analisis</h2>
+              <div className="flex justify-center mb-4">
+                {selectedResult.image_path ? (
+                  <img
+                    src={`/storage/${selectedResult.image_path}`}
+                    alt="Tanaman"
+                    className="w-40 h-40 rounded-[20px] object-cover"
+                  />
+                ) : (
+                  <div className="text-gray-300">Tidak ada gambar</div>
+                )}
+              </div>
+
+              <div className="space-y-2 text-sm font-livvic">
+          <div className="flex items-start">
+            <span className="inline-block w-32 text-[#F8E559] font-semibold text-left">Penyakit</span>
+            <span className="mx-2">:</span>
+            <span className="flex-1">{selectedResult.disease?.name || '-'}</span>
+          </div>
+          <div className="flex items-start">
+            <span className="inline-block w-32 text-[#F8E559] font-semibold text-left">Akurasi</span>
+            <span className="mx-2">:</span>
+            <span className="flex-1">{selectedResult.accuracy ? (selectedResult.accuracy * 100).toFixed(0) + '%' : '-'}</span>
+          </div>
+          <div className="flex items-start">
+            <span className="inline-block w-32 text-[#F8E559] font-semibold text-left">Penjelasan</span>
+            <span className="mx-2">:</span>
+            <span className="flex-1">{selectedResult.disease?.description || '-'}</span>
+          </div>
+          <div className="flex items-start">
+            <span className="inline-block w-32 text-[#F8E559] font-semibold text-left">Penanganan</span>
+            <span className="mx-2">:</span>
+            <span className="flex-1">{selectedResult.disease?.treatment || '-'}</span>
+          </div>
+        </div>
+
+              <div className="mt-6 flex justify-end">
+                <button
+                  className="bg-[#F8E559] font-livvic text-[#325700] px-6 py-2 rounded-md font-semibold hover:bg-yellow-300 transition"
+                  onClick={() => setShowModal(false)}
+                >
+                  Selesai
+                </button>
               </div>
             </div>
           </div>
