@@ -10,6 +10,7 @@ export default function RiwayatAnalisis({ histories = [] }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleView = (item) => {
+    console.log(item); // cek struktur data
     setSelectedResult(item);
     setShowModal(true);
   };
@@ -82,11 +83,15 @@ export default function RiwayatAnalisis({ histories = [] }) {
               >
                 &times;
               </button>
-              <AnalysisResult result={{
-                soil: selectedResult.soil,
-                weather: selectedResult.weather,
-                plants: selectedResult.plants,
-              }} />
+              {/* Hilangkan atau jangan tampilkan gambar di sini */}
+              <AnalysisResult
+                result={{
+                  soil: selectedResult.soil,
+                  weather: selectedResult.weather,
+                  plants: selectedResult.plants,
+                }}
+                showImage={false}
+              />
             </div>
           </div>
         )}

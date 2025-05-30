@@ -16,7 +16,7 @@ class HistoryPlantRecomendationController extends Controller
 
         // Get the authenticated user's plant recommendations
         $plantRecommendations = $request->user()->plantRecomendations()
-            ->with(['soils', 'plants', 'weather']) // tambahkan relasi yang diperlukan
+            ->with(['soil', 'plants', 'weather'])
             ->orderByDesc('created_at')
             ->get();
 
