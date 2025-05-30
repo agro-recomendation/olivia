@@ -1,12 +1,50 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
-import FileInputBox from '@/Components/FileInputBox';
-import FileUploadBox from '@/Components/FileUploadBox';
+import FileInputBox from '../Components/FileInputBox';
+import FileUploadBox from '../Components/FileUploadBox';
+import AnalisysDisease from '../Components/AnalisysDisease';
 
-export default function DeteksiPenyakitTanaman() {
-  const [file, setFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
+function AnalysisDisease({ file, user_id }) {
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  React.useEffect(() => {
+    if (!file) return;
+    setLoading(true);
+    setError('');
+    setResult(null);
+
+    const formData = new FormData();
+    formData.append('image', file);
+    if (user_id) formData.append('user_id', user_id);
+
+    fetch('/api/disease/analyze', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error('Gagal analisis');
+        const data = await res.json();
+        setResult(data);
+      })
+      .catch(() => setError('Gagal melakukan analisis.'))
+      .finally(() => setLoading(false));
+  }, [file, user_id]);
+
+  if (loading) return <div className="text-white">Analisis gambar...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
+  if (!result) return null;
+
+  return (
+    <AnalisysDisease file={file} result={result} />
+  );
+}
+
+export default function DeteksiPenyakitTanaman({ auth }) {
+  const [file, setFile] = useState(null);  
   const [showAnalysis, setShowAnalysis] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState('');
 
   const handleBack = () => window.history.back();
 
@@ -64,7 +102,12 @@ export default function DeteksiPenyakitTanaman() {
       )}
 
       {/* Tampilkan hasil analisis */}
-      {showAnalysis && <AnalysisDisease file={file} />}
+      {showAnalysis && (
+        <AnalysisDisease
+          file={file}
+          user_id={auth?.user ? auth.user.id : null}
+        />
+      )}
     </div>
   );
 }

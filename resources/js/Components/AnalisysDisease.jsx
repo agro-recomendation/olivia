@@ -1,45 +1,52 @@
 import React from 'react';
 
-export default function AnalysisDisease({ alamat, fileUrl }) {
-  return (
-    <div className="min-h-screen bg-[#325700] flex flex-col items-center px-4">
-      <div className="mt-10 w-full max-w-3xl bg-[#325700] rounded-2xl p-6 text-white flex flex-col md:flex-row gap-6 font-poppins">
+export default function AnalisysDisease({ file, result }) {
+  if (!result) return null;
 
-        {/* Gambar */}
-        <div className="flex-1 flex items-center justify-center border-2 border-[#2B4F00] rounded-xl overflow-hidden max-h-[400px]">
-          {fileUrl ? (
-            <img
-              src={`/storage/${fileUrl}`}
-              alt="Tanaman"
-              className="object-cover w-full h-full"
-            />
-          ) : (
-            <div className="text-[#C7E7C7] italic">Tidak ada gambar</div>
-          )}
+  return (
+    <div className="bg-[#325700] min-h-screen p-6 flex justify-center text-white font-sans">
+      <div className="flex flex-col md:flex-row gap-8 max-w-6xl w-full">
+        <div className="bg-[#325700] rounded-2xl p-2 w-full md:w-1/2 flex justify-center items-center">
+          <img
+            src={URL.createObjectURL(file)}
+            alt="Tanaman yang diunggah"
+            className="rounded-2xl object-cover max-h-[400px] w-full"
+          />
         </div>
 
-        {/* Detail Analisis */}
-        <div className="flex-1 space-y-6">
-          <div className="bg-[#2B4F00] rounded-xl p-4">
-            <h3 className="font-livvic font-bold text-lg">Nama penyakit</h3>
-            <p className="bg-[#F6EB73] text-[#325700] mt-2 px-4 py-2 rounded font-semibold">
-              {alamat || 'Kecamatan Milir'}
-            </p>
+        <div className="flex flex-col gap-4 w-full md:w-1/2">
+          <h2 className="text-3xl font-bold text-white mb-2">Hasil Deteksi Penyakit</h2>
+
+          <div className="bg-[#4C6D00] rounded-xl p-4">
+            <div className="text-lg font-semibold text-white mb-1">Penyakit</div>
+            <div className="bg-[#FDF76D] text-[#3B5900] py-2 px-3 rounded-md font-medium">
+              {result.predicted_label}
+            </div>
           </div>
 
-          <div className="bg-[#2B4F00] rounded-xl p-4">
-            <h3 className="font-livvic font-bold text-lg">Jenis penyakit</h3>
-            <p className="bg-[#F6EB73] text-[#325700] mt-2 px-4 py-2 rounded font-semibold">
-              Menular
-            </p>
+          <div className="bg-[#4C6D00] rounded-xl p-4">
+            <div className="text-lg font-semibold text-white mb-1">Akurasi</div>
+            <div className="bg-[#FDF76D] text-[#3B5900] py-2 px-3 rounded-md font-medium">
+              {result.confidence ? (result.confidence * 100).toFixed(2) + '%' : '-'}
+            </div>
           </div>
 
-          <div className="bg-[#2B4F00] rounded-xl p-4">
-            <h3 className="font-livvic font-bold text-lg">Saran penanganan</h3>
-            <ul className="list-disc ml-6 mt-3 text-sm text-white font-poppins">
-              <li>Bersihkan area yang terdampak</li>
-              <li>Hindari penyiraman berlebihan</li>
-              <li>Gunakan fungsida</li>
+          <div className="bg-[#4C6D00] rounded-xl p-4">
+            <div className="text-lg font-semibold text-white mb-1">Penjelasan</div>
+            <div className="text-[#FDF76D] font-medium">
+              {result.description}
+            </div>
+          </div>
+
+          <div className="bg-[#4C6D00] rounded-xl p-4">
+            <div className="text-lg font-semibold text-white mb-2">Penanganan</div>
+            <ul className="list-disc list-inside text-[#FDF76D] space-y-1">
+              {result.treatment?.split('\n').map((item, index) => (
+                <li key={index} className="flex items-start">
+                  <span className="mr-2">✅</span>
+                  <span>{item}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

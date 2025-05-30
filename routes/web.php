@@ -3,9 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PlantRecomendation\GetPlantRecomendationController;
+use App\Http\Controllers\Message\SendMessageController;
 
 Route::get('/', function () {
     return Inertia::render('Home', [
@@ -54,16 +56,29 @@ Route::middleware('auth')->group(function () {
     Route::put('/password', [\App\Http\Controllers\Auth\PasswordController::class, 'update'])->name('password.update');
 });
 
+
+Route::post('/plant_recomendation/analyze', [GetPlantRecomendationController::class, 'store']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/history-plant-recomendation', [App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'index'])->name('history.plant.recomendation.index');
     Route::get('/history-plant-recomendation/{id}', [App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'show'])->name('history.plant.recomendation.show');
     Route::delete('/history-plant-recomendation/{id}', [App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'destroy'])->name('history.plant.recomendation.destroy');
     Route::get('/riwayat-analisis', [\App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'index'])
         ->name('riwayat.analisis');
+    Route::get('/riwayat-deteksi', [\App\Http\Controllers\Disease\ResultDiseaseController::class, 'index'])
+        ->name('riwayat.deteksi');
+    Route::delete('/riwayat-deteksi/{id}', [\App\Http\Controllers\Disease\ResultDiseaseController::class, 'destroy'])
+        ->name('riwayat.deteksi.destroy');
 });
 
 Route::prefix('plant_recomendation')->group(function () {
     Route::post('/analyze', [GetPlantRecomendationController::class, 'store'])->name('plant.recomendation.analyze');
+    
 });
+
+Route::get('/peta-komoditas-pertanian', function () {
+    return Inertia::render('KomoditasPertanian');
+})->middleware(['auth', 'verified'])->name('peta-komoditas.pertanian');
+
 
 require __DIR__.'/auth.php';

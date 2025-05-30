@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '../Components/Container';
 import Navbar from '../Components/Navbar';
 import GrowSupport from '../Components/GrowSupport';
@@ -7,6 +7,43 @@ import { route } from 'ziggy-js';
 import PropTypes from 'prop-types';
 
 export default function Home({ auth }) {
+  // Tambahkan state untuk form kontak
+  const [contact, setContact] = useState({
+    telephone: '',
+    message: '',
+    user_id: auth.user ? auth.user.id : null,
+  });
+  const [contactStatus, setContactStatus] = useState(null);
+
+  const handleContactChange = (e) => {
+    setContact({ ...contact, [e.target.name]: e.target.value });
+  };
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setContactStatus(null);
+    try {
+      const res = await fetch('/api/message/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          telephone: contact.telephone,
+          message: contact.message,
+          user_id: contact.user_id,
+        }),
+      });
+      if (!res.ok) throw new Error('Gagal mengirim pesan');
+      setContactStatus('Pesan berhasil dikirim!');
+      setContact({ telephone: '', message: '' });
+    } catch {
+      setContactStatus('Gagal mengirim pesan. Pastikan Anda sudah login.');
+    }
+  };
+
   return (
     <div className="font-poppins">
       {/* Navbar menerima prop auth */}
@@ -94,9 +131,9 @@ export default function Home({ auth }) {
           link: '/analisis-penyakit-tanaman',
         },
         {
-          title: 'Prediksi Musim Tanam & Panen',
+          title: 'Peta Komoditas Pertanian',
           image: '/images/fitur3.png',
-          link: '/prediksi-musim-tanam',
+          link: '/peta-komoditas-pertanian',
         },
       ].map((f, i) => (
         <div
@@ -157,12 +194,29 @@ export default function Home({ auth }) {
               </div>
             </div>
             <div className="px-4">
-              <form className="w-full max-w-md mx-auto space-y-5">
-                <input type="text" placeholder="Nama" required className="w-full p-4 rounded-lg bg-[#FFF36B] text-[#2E4D1C] placeholder-[#2E4D1C]" />
-                <input type="tel" placeholder="Telepon" required className="w-full p-4 rounded-lg bg-[#FFF36B] text-[#2E4D1C] placeholder-[#2E4D1C]" />
-                <input type="email" placeholder="Email" required className="w-full p-4 rounded-lg bg-[#FFF36B] text-[#2E4D1C] placeholder-[#2E4D1C]" />
-                <textarea rows={4} placeholder="Pesan" required className="w-full p-4 rounded-lg bg-[#FFF36B] text-[#2E4D1C] placeholder-[#2E4D1C]" />
+              <form className="w-full max-w-md mx-auto space-y-5" onSubmit={handleContactSubmit}>
+                {/* <input type="text" placeholder="Nama" ... /> */}
+                <input
+                  type="tel"
+                  name="telephone"
+                  placeholder="Telepon"
+                  required
+                  className="w-full p-4 rounded-lg bg-[#FFF36B] text-[#2E4D1C] placeholder-[#2E4D1C]"
+                  value={contact.telephone}
+                  onChange={handleContactChange}
+                />
+                {/* <input type="email" placeholder="Email" ... /> */}
+                <textarea
+                  name="message"
+                  rows={4}
+                  placeholder="Pesan"
+                  required
+                  className="w-full p-4 rounded-lg bg-[#FFF36B] text-[#2E4D1C] placeholder-[#2E4D1C]"
+                  value={contact.message}
+                  onChange={handleContactChange}
+                />
                 <button type="submit" className="bg-white text-[#2E4D1C] px-8 py-3 rounded-2xl font-medium">KIRIM</button>
+                {contactStatus && <p className="mt-2 text-center">{contactStatus}</p>}
               </form>
             </div>
           </div>

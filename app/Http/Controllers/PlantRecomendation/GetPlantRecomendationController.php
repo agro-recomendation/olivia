@@ -17,10 +17,11 @@ class GetPlantRecomendationController extends Controller
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'latitude' => 'required|numeric',
                 'longitude' => 'required|numeric',
+                'user_id' => 'required|exists:users,id', // Optional user ID for authenticated users
             ]);
 
             Log::info('Request received for plant recommendation', [
-                'user_id' => optional($request->user())->id,
+                'user_id' => $validatedData['user_id'],
                 'latitude' => $validatedData['latitude'],
                 'longitude' => $validatedData['longitude'],
             ]);
@@ -82,11 +83,10 @@ class GetPlantRecomendationController extends Controller
                     'plants' => $plants,
                 ];
 
-                // Simpan ke database jika user login (kode Anda sebelumnya)
-                if ($request->user()) {
-                    Log::info('User authenticated, saving data', ['user_id' => $request->user()->id]);
+                if ($request->user_id) {
+                    Log::info('User authenticated, saving data', ['user_id' => $request->user_id]);
                     $plantRecomendation = new \App\Models\PlantRecomendation();
-                    $plantRecomendation->user_id = $request->user()->id;
+                    $plantRecomendation->user_id = $request->user_id;
                     $plantRecomendation->save();
 
                     $soilData = $data['nearest_soil_data'] ?? [];
@@ -111,9 +111,12 @@ class GetPlantRecomendationController extends Controller
                     if (isset($data['farming_tips']) && is_array($data['farming_tips'])) {
                         foreach ($data['farming_tips'] as $plantData) {
                             if (isset($plantData['Nama Tanaman'], $plantData['Manfaat'], $plantData['Tips Menanam'])) {
+                                $name = $plantData['Nama Tanaman'];
+                                $accuracy = $recommendationMap[$name] ?? 0.00;
+
                                 $plant = \App\Models\Plant::create([
-                                    'name' => $plantData['Nama Tanaman'],
-                                    'accuracy' => 0.00,
+                                    'name' => $name,
+                                    'accuracy' => $accuracy,
                                     'plant_recomendation_id' => $plantRecomendation->id,
                                     'benefits' => $plantData['Manfaat'],
                                     'planting_tips' => $plantData['Tips Menanam'],
