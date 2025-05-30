@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Disease;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Diseases;
 
 class ResultDiseaseController extends Controller
@@ -54,4 +55,28 @@ class ResultDiseaseController extends Controller
             return response()->json(['error' => 'Failed to analyze image'], 500);
         }
     }
+
+    public function index()
+    {
+        $histories = \App\Models\ResultDisease::with('disease')
+            ->where('user_id', request()->user()->id)
+            ->orderByDesc('created_at')
+            ->get();
+
+        return inertia('RiwayatDeteksi', [
+            'histories' => $histories
+        ]);
+    }
+
+    // public function destroy($id)
+    // {
+    //     $result = \App\Models\ResultDisease::where('user_id', auth()->id())->findOrFail($id);
+    //     // Hapus file gambar jika perlu
+    //     if ($result->image_path && \Storage::disk('public')->exists($result->image_path)) {
+    //         \Storage::disk('public')->delete($result->image_path);
+    //     }
+    //     $result->delete();
+
+    //     return redirect()->back()->with('success', 'Riwayat deteksi berhasil dihapus.');
+    // }
 }

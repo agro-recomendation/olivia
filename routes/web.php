@@ -65,10 +65,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/history-plant-recomendation/{id}', [App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'destroy'])->name('history.plant.recomendation.destroy');
     Route::get('/riwayat-analisis', [\App\Http\Controllers\PlantRecomendation\HistoryPlantRecomendationController::class, 'index'])
         ->name('riwayat.analisis');
+    Route::get('/riwayat-deteksi', [\App\Http\Controllers\Disease\ResultDiseaseController::class, 'index'])
+        ->name('riwayat.deteksi');
+    Route::delete('/riwayat-deteksi/{id}', [\App\Http\Controllers\Disease\ResultDiseaseController::class, 'destroy'])
+        ->name('riwayat.deteksi.destroy');
 });
 
 Route::prefix('plant_recomendation')->group(function () {
     Route::post('/analyze', [GetPlantRecomendationController::class, 'store'])->name('plant.recomendation.analyze');
+    
 });
 
 

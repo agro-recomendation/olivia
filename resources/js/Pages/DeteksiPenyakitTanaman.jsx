@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import FileInputBox from '../Components/FileInputBox';
 import FileUploadBox from '../Components/FileUploadBox';
+import AnalisysDisease from '../Components/AnalisysDisease';
 
 function AnalysisDisease({ file, user_id }) {
   const [result, setResult] = useState(null);
@@ -36,21 +37,7 @@ function AnalysisDisease({ file, user_id }) {
   if (!result) return null;
 
   return (
-    <div className="bg-white rounded-xl p-6 mt-8 shadow-lg max-w-xl mx-auto">
-      <h2 className="text-xl font-bold mb-2 text-[#2B4F00]">Hasil Deteksi Penyakit</h2>
-      {/* Tampilkan gambar hasil upload */}
-      <div className="mb-4 flex justify-center">
-        <img
-          src={URL.createObjectURL(file)}
-          alt="Tanaman yang diunggah"
-          className="max-h-64 rounded shadow"
-        />
-      </div>
-      <div><strong>Penyakit:</strong> {result.predicted_label}</div>
-      <div><strong>Akurasi:</strong> {result.confidence ? (result.confidence * 100).toFixed(2) + '%' : '-'}</div>
-      <div className="mt-2"><strong>Penjelasan:</strong> {result.description}</div>
-      <div className="mt-2"><strong>Penanganan:</strong> {result.treatment}</div>
-    </div>
+    <AnalisysDisease file={file} result={result} />
   );
 }
 
