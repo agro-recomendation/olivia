@@ -1,6 +1,21 @@
 import React from 'react';
 
 export default function FileUploadBox({ previewUrl, setFile, setPreviewUrl }) {
+    // Handler untuk drag & drop
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            setFile(e.dataTransfer.files[0]);
+            setPreviewUrl(URL.createObjectURL(e.dataTransfer.files[0]));
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
     return (
         <div
             className="bg-[#D9D9D9] mt-0 rounded-2xl border-2 border-dashed border-[#2B4F00] px-4 py-10 flex flex-col items-center justify-center text-center space-y-4 relative min-h-[350px] w-full"
@@ -16,6 +31,9 @@ export default function FileUploadBox({ previewUrl, setFile, setPreviewUrl }) {
                     : {}),
                 maxWidth: '100%',
             }}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragOver}
         >
             {!previewUrl && (
                 <>
