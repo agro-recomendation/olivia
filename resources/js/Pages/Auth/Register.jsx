@@ -116,13 +116,13 @@ export default function Register() {
                     </div>
 
                     {/* Gambar */}
-                    {/* <div className="hidden md:block md:w-1/2 max-h-full">
+                    <div className="hidden md:block md:w-1/2 max-h-full">
                         <img
-                            src="/images/image-login.png"
+                            src="/images/register-image.png"
                             alt="Sawit"
                             className="h-full w-full object-cover"
                         />
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </>

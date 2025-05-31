@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/riwayat-deteksi', [\App\Http\Controllers\Disease\ResultDiseaseController::class, 'index'])
         ->name('riwayat.deteksi');
     Route::delete('/riwayat-deteksi/{id}', [\App\Http\Controllers\Disease\ResultDiseaseController::class, 'destroy'])
+        ->middleware(['auth', 'verified'])
         ->name('riwayat.deteksi.destroy');
 });
 
