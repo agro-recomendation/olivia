@@ -20,9 +20,4 @@ class PlantRecomendation extends Model
     {
         return $this->hasMany(Plant::class);
     }
-    
-    public function weather()
-    {
-        return $this->hasOne(\App\Models\Weather::class);
-    }
 }

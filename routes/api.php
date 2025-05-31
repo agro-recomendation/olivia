@@ -19,3 +19,8 @@ Route::post('/plant_recomendation/analyze', [GetPlantRecomendationController::cl
 Route::prefix('disease')->group(function () {
     Route::post('/analyze', [\App\Http\Controllers\Disease\ResultDiseaseController::class, 'analyze']);
 });
+
+Route::prefix('crop_area')->group(function () {
+    Route::get('/marker', [\App\Http\Controllers\CropArea\MarkerController::class, 'marker']);
+    Route::get('/{id}', [\App\Http\Controllers\CropArea\DetailController::class, 'detail']);
+});
